@@ -1,19 +1,23 @@
 import java.util.Scanner;
 
 public class Anis {
+    private static final String BOT_NAME = "Anis";
     private static final String BORDER = "    ____________________________________________________________";
     private static final String LOGO =
             """
-                    ░███               ░██           
-                   ░██░██                            
-                  ░██  ░██  ░████████  ░██ ░███████  
-                 ░█████████ ░██    ░██ ░██░██        
-                 ░██    ░██ ░██    ░██ ░██ ░███████  
-                 ░██    ░██ ░██    ░██ ░██       ░██ 
-                 ░██    ░██ ░██    ░██ ░██ ░███████                                    
+                    ░███               ░██
+                   ░██░██
+                  ░██  ░██  ░████████  ░██ ░███████
+                 ░█████████ ░██    ░██ ░██░██
+                 ░██    ░██ ░██    ░██ ░██ ░███████
+                 ░██    ░██ ░██    ░██ ░██       ░██
+                 ░██    ░██ ░██    ░██ ░██ ░███████
             """;
 
-    public static void printBorder() {
+    private static String[] tasks = new String[100];
+    private static int taskCount = 0;
+
+    static void printBorder() {
         System.out.println(BORDER);
     }
 
@@ -32,6 +36,20 @@ public class Anis {
     public static void displayGoodbye() {
         System.out.println("\t Glad I could assist! Have a wonderful day.");
         System.out.println("\t Feel free to reach out anytime.");
+        printBorder();
+    }
+
+    public static void addTask(String task) {
+        if (taskCount > tasks.length) {
+            printBorder();
+            System.out.println("\t Task list is full. Cannot add more tasks.");
+            printBorder();
+            return;
+        }
+
+        tasks[taskCount] = task;
+        taskCount++;
+        System.out.println("\t Added task: " + task);
         printBorder();
     }
 
