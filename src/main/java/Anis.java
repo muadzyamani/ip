@@ -61,22 +61,28 @@ public class Anis {
     }
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
         displayWelcome();
 
+        Scanner scanner = new Scanner(System.in);
         String userInput;
+
         while (true) {
             userInput = scanner.nextLine().trim();
-            if (userInput.equalsIgnoreCase("bye")) {
+            String[] words = userInput.split(" ", 2);
+            String command = words[0].toLowerCase();
+
+            switch (command) {
+            case "bye":
                 displayGoodbye();
-                break;
-            } else if (userInput.equalsIgnoreCase("list")) {
+                scanner.close();
+                return;
+            case "list":
                 listTasks();
-            } else {
+                break;
+            default:
                 addTask(userInput);
+                break;
             }
         }
-
-        scanner.close();
     }
 }
