@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class Anis {
-    private static final String BOT_NAME = "Anis";
     private static final String BORDER = "    ____________________________________________________________";
     private static final String LOGO =
             """
@@ -14,7 +13,7 @@ public class Anis {
                  ░██    ░██ ░██    ░██ ░██ ░███████
             """;
 
-    private static String[] tasks = new String[100];
+    private static final String[] tasks = new String[100];
     private static int taskCount = 0;
 
     static void printBorder() {
@@ -40,7 +39,7 @@ public class Anis {
     }
 
     public static void addTask(String task) {
-        if (taskCount > tasks.length) {
+        if (taskCount >= tasks.length) {
             printBorder();
             System.out.println("\t Task list is full. Cannot add more tasks.");
             printBorder();
@@ -49,7 +48,15 @@ public class Anis {
 
         tasks[taskCount] = task;
         taskCount++;
-        System.out.println("\t Added task: " + task);
+        System.out.println("\t added: " + task);
+        printBorder();
+    }
+
+    public static void listTasks() {
+        printBorder();
+        for (int i = 0; i < taskCount; i++) {
+            System.out.println("\t " + (i + 1) + ". " + tasks[i]);
+        }
         printBorder();
     }
 
@@ -63,15 +70,17 @@ public class Anis {
         Scanner scanner = new Scanner(System.in);
         displayWelcome();
 
-        String input;
+        String userInput;
         while (true) {
-            input = scanner.nextLine().trim();
-            if (input.equals("bye")) {
+            userInput = scanner.nextLine().trim();
+            if (userInput.equalsIgnoreCase("bye")) {
                 displayGoodbye();
                 break;
+            } else if (userInput.equalsIgnoreCase("list")) {
+                listTasks();
+            } else {
+                addTask(userInput);
             }
-
-            echoCommand(input);
         }
 
         scanner.close();
