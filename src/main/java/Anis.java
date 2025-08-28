@@ -60,12 +60,6 @@ public class Anis {
         printBorder();
     }
 
-    public static void echoCommand(String command) {
-        printBorder();
-        System.out.println("\t " + command);
-        printBorder();
-    }
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         displayWelcome();
