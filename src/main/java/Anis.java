@@ -13,7 +13,8 @@ public class Anis {
                  ░██    ░██ ░██    ░██ ░██ ░███████
             """;
 
-    private static final Task[] tasks = new Task[100];
+    private static final int MAX_TASKS = 100;
+    private static final Task[] tasks = new Task[MAX_TASKS];
     private static int taskCount = 0;
 
     static void printBorder() {
