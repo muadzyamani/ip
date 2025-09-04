@@ -40,14 +40,44 @@ public class Anis {
         printBorder();
     }
 
-    public static void addTask(String description) {
-        Todo newTodo = new Todo(description);
-        tasks.add(newTodo);
+    private static void addTodo(String description) {
+        Task newTask = new Todo(description);
+        addTaskToList(newTask);
+    }
 
+    private static void addDeadline(String description) {
+        String[] deadlineParts = description.split("/by", 2);
+        if (deadlineParts.length < 2) {
+            System.out.println("\t Please use the format: deadline <desc> /by <time>");
+            return;
+        }
+        Task newTask = new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim());
+        addTaskToList(newTask);
+    }
+
+    private static void addTaskToList(Task newTask) {
+        tasks.add(newTask);
         printBorder();
-        System.out.println("\t added: " + description);
+        System.out.println("\t Got it. I've added this task:");
+        System.out.println("\t   " + newTask);
+        System.out.println("\t Now you have " + tasks.size() +
+                (tasks.size() == 1 ? " task" : " tasks") + " in the list.");
         printBorder();
-        System.out.println("\t Now you have " + tasks.size() + (tasks.size() == 1 ? " task" : " tasks") + " in the list.");
+    }
+
+    private static void addEvent(String description) {
+        String[] eventParts = description.split("/from", 2);
+        if (eventParts.length < 2) {
+            System.out.println("\t Please use the format: event <desc> /from <start> /to <end>");
+            return;
+        }
+        String[] fromTo = eventParts[1].split("/to", 2);
+        if (fromTo.length < 2) {
+            System.out.println("\t Please use the format: event <desc> /from <start> /to <end>");
+            return;
+        }
+        Task newTask = new Event(eventParts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
+        addTaskToList(newTask);
     }
 
     public static void listTasks() {
@@ -134,45 +164,19 @@ public class Anis {
             return;
         }
 
-        Task newTask = null;
-
         switch (command) {
         case "todo":
-            newTask = new Todo(description);
+            addTodo(description);
             break;
         case "deadline":
-            String[] deadlineParts = description.split("/by", 2);
-            if (deadlineParts.length < 2) {
-                System.out.println("\t Please use the format: deadline <desc> /by <time>");
-                return;
-            }
-            newTask = new Deadline(deadlineParts[0].trim(), deadlineParts[1].trim());
+            addDeadline(description);
             break;
         case "event":
-            String[] eventParts = description.split("/from", 2);
-            if (eventParts.length < 2) {
-                System.out.println("\t Please use the format: event <desc> /from <start> /to <end>");
-                return;
-            }
-            String[] fromTo = eventParts[1].split("/to", 2);
-            if (fromTo.length < 2) {
-                System.out.println("\t Please use the format: event <desc> /from <start> /to <end>");
-                return;
-            }
-            newTask = new Event(eventParts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
+            addEvent(description);
             break;
         }
-
-        if (newTask != null) {
-            tasks.add(newTask);
-            printBorder();
-            System.out.println("\t Got it. I've added this task:");
-            System.out.println("\t   " + newTask);
-            System.out.println("\t Now you have " + tasks.size() +
-                    (tasks.size() == 1 ? " task" : " tasks") + " in the list.");
-            printBorder();
-        }
     }
+
 
     public static void processCommand(String userInput) {
         String[] words = userInput.split(" ", 2);
