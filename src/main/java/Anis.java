@@ -1,4 +1,6 @@
 import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Anis {
     private static final String BORDER = "    ____________________________________________________________";
@@ -13,9 +15,7 @@ public class Anis {
                  ░██    ░██ ░██    ░██ ░██ ░███████
             """;
 
-    private static final int MAX_TASKS = 100;
-    private static final Task[] tasks = new Task[MAX_TASKS];
-    private static int taskCount = 0;
+    private static final List<Task> tasks = new ArrayList<>();
 
     static void printBorder() {
         System.out.println(BORDER);
@@ -40,15 +40,7 @@ public class Anis {
     }
 
     public static void addTask(String description) {
-        if (taskCount >= tasks.length) {
-            printBorder();
-            System.out.println("\t Task list is full. Cannot add more tasks.");
-            printBorder();
-            return;
-        }
-
-        tasks[taskCount] = new Task(description);
-        taskCount++;
+        tasks.add(new Task(description));
 
         printBorder();
         System.out.println("\t added: " + description);
@@ -57,14 +49,14 @@ public class Anis {
 
     public static void listTasks() {
         printBorder();
-        for (int i = 0; i < taskCount; i++) {
-            System.out.println("\t " + (i + 1) + ". " + tasks[i]);
+        for (Task task : tasks) {
+            System.out.println("\t " + (tasks.indexOf(task) + 1) + ". " + task);
         }
         printBorder();
     }
 
     public static void markTask(int taskNumber) {
-        if (taskNumber <= 0 || taskNumber > taskCount) {
+        if (taskNumber <= 0 || taskNumber > tasks.size()) {
             printBorder();
             System.out.println("\t Invalid task number.");
             printBorder();
@@ -72,16 +64,17 @@ public class Anis {
         }
 
         int taskIndex = taskNumber - 1;
-        tasks[taskIndex].markAsDone();
+        Task taskToMark = tasks.get(taskIndex);
+        taskToMark.markAsDone();
 
         printBorder();
         System.out.println("\t Nice! I've marked this task as done:");
-        System.out.println("\t   " + tasks[taskIndex]);
+        System.out.println("\t   " + taskToMark);
         printBorder();
     }
 
     public static void unmarkTask(int taskNumber) {
-        if (taskNumber <= 0 || taskNumber > taskCount) {
+        if (taskNumber <= 0 || taskNumber > tasks.size()) {
             printBorder();
             System.out.println("\t Invalid task number.");
             printBorder();
@@ -89,11 +82,12 @@ public class Anis {
         }
 
         int taskIndex = taskNumber - 1;
-        tasks[taskIndex].unmarkAsDone();
+        Task taskToUnmark = tasks.get(taskIndex);
+        taskToUnmark.markAsNotDone();
 
         printBorder();
         System.out.println("\t OK, I've marked this task as not done yet:");
-        System.out.println("\t   " + tasks[taskIndex]);
+        System.out.println("\t   " + taskToUnmark);
         printBorder();
     }
 
