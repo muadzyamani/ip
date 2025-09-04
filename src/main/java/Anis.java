@@ -16,6 +16,7 @@ public class Anis {
             """;
 
     private static final List<Task> tasks = new ArrayList<>();
+    private static final Scanner scanner = new Scanner(System.in);
 
     static void printBorder() {
         System.out.println(BORDER);
@@ -91,52 +92,64 @@ public class Anis {
         printBorder();
     }
 
+    public static void handleMark(boolean isMark, String[] words) {
+        String command = isMark ? "mark" : "unmark";
+
+        try {
+            if (words.length < 2) {
+                printBorder();
+                System.out.println("\t Please specify which task to " + command + ".");
+                printBorder();
+                return;
+            }
+
+            int taskNumber = Integer.parseInt(words[1]);
+            if (isMark) {
+                markTask(taskNumber);
+            } else {
+                unmarkTask(taskNumber);
+            }
+        } catch (NumberFormatException e) {
+            printBorder();
+            System.out.println("\t Please enter a valid task number after '" + command + "'.");
+            printBorder();
+        }
+    }
+
+    public static void processCommand(String userInput) {
+        String[] words = userInput.split(" ", 2);
+        String command = words[0].toLowerCase();
+
+        switch (command) {
+        case "bye":
+            displayGoodbye();
+            scanner.close();
+            return;
+        case "list":
+            listTasks();
+            break;
+        case "mark":
+            handleMark(true, words);
+            break;
+        case "unmark":
+            handleMark(false, words);
+            break;
+        default:
+            addTask(userInput);
+            break;
+        }
+    }
+
+    public static void runChat() {
+        String userInput;
+        do {
+            userInput = scanner.nextLine().trim();
+            processCommand(userInput);
+        } while (!userInput.equals("bye"));
+    }
+
     public static void main(String[] args) {
         displayWelcome();
-
-        Scanner scanner = new Scanner(System.in);
-        String userInput;
-
-        while (true) {
-            userInput = scanner.nextLine().trim();
-            String[] words = userInput.split(" ", 2);
-            String command = words[0].toLowerCase();
-
-            switch (command) {
-            case "bye":
-                displayGoodbye();
-                scanner.close();
-                return;
-            case "list":
-                listTasks();
-                break;
-            case "mark":
-            case "unmark":
-                try {
-                    if (words.length < 2) {
-                        printBorder();
-                        System.out.println("\t Please specify which task to " + command + ".");
-                        printBorder();
-                        break;
-                    }
-
-                    int taskNumber = Integer.parseInt(words[1]);
-                    if (command.equals("mark")) {
-                        markTask(taskNumber);
-                    } else {
-                        unmarkTask(taskNumber);
-                    }
-                } catch (NumberFormatException e) {
-                    printBorder();
-                    System.out.println("\t Please enter a valid task number after 'mark' or 'unmark'.");
-                    printBorder();
-                }
-                break;
-
-            default:
-                addTask(userInput);
-                break;
-            }
-        }
+        runChat();
     }
 }
