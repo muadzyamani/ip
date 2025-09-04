@@ -56,11 +56,18 @@ public class Anis {
         printBorder();
     }
 
-    public static void markTask(int taskNumber) {
+    public static boolean isInvalidTaskNumber(int taskNumber) {
         if (taskNumber <= 0 || taskNumber > tasks.size()) {
             printBorder();
             System.out.println("\t Invalid task number.");
             printBorder();
+            return true;
+        }
+        return false;
+    }
+
+    public static void markTask(int taskNumber) {
+        if (isInvalidTaskNumber(taskNumber)) {
             return;
         }
 
@@ -75,10 +82,7 @@ public class Anis {
     }
 
     public static void unmarkTask(int taskNumber) {
-        if (taskNumber <= 0 || taskNumber > tasks.size()) {
-            printBorder();
-            System.out.println("\t Invalid task number.");
-            printBorder();
+        if (isInvalidTaskNumber(taskNumber)) {
             return;
         }
 
