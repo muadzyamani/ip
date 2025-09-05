@@ -1,0 +1,7 @@
+todo borrow book
+event CS2113 project meeting /from Tues 8pm /to 10pm
+deadline check assignments /by Sunday
+mark 1
+list
+unmark 1
+bye
