@@ -5,6 +5,6 @@ public class Todo extends Task {
 
     @Override
     public String getTypeIcon() {
-        return "T";
+        return TaskType.TODO.getIcon();
     }
 }
