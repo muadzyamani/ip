@@ -71,33 +71,9 @@ public class Ui {
         printBorder();
     }
 
-    public void showEmptyDescription(String taskType) {
-        showError("The description of a " + taskType + " cannot be empty.");
-    }
-
-    public void showInvalidFormat(String taskType, String correctFormat) {
-        showError("Please use the format: " + taskType + " " + correctFormat);
-    }
-
-    public void showInvalidTaskNumber() {
-        showError("Invalid task number.");
-    }
-
-    public void showUnknownCommand() {
-        showError("I'm sorry, I don't understand that command.");
-    }
-
     public void showError(String message) {
         printBorder();
         show(message);
         printBorder();
-    }
-
-    public void showMissingTaskNumber(boolean isMark) {
-        showError("Please specify which task to " + (isMark ? "mark" : "unmark") + ".");
-    }
-
-    public void showInvalidNumberFormat() {
-        showError("Please enter a valid task number.");
     }
 }
