@@ -1,3 +1,9 @@
+package anis;
+
+import anis.command.CommandHandler;
+import anis.task.TaskManager;
+import anis.ui.Ui;
+
 import java.util.Scanner;
 
 public class Anis {
