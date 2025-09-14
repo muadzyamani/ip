@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskManager {
-    private final List<Task> tasks = new ArrayList<>();
+    private final List<Task> tasks;
+
+    public TaskManager(List<Task> tasks) {
+        this.tasks = new ArrayList<>(tasks);
+    }
 
     public void addTask(Task task) {
         tasks.add(task);
