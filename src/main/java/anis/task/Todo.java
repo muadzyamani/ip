@@ -9,4 +9,9 @@ public class Todo extends Task {
     public String getTypeIcon() {
         return TaskType.TODO.getIcon();
     }
+
+    @Override
+    public String toSaveFormat() {
+        return "T | " + (isDone ? "1" : "0") + " | " + description;
+    }
 }
