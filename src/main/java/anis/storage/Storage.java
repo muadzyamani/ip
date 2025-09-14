@@ -1,4 +1,4 @@
-package anis.Storage;
+package anis.storage;
 
 import anis.task.Deadline;
 import anis.task.Event;
