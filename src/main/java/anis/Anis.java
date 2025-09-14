@@ -1,6 +1,6 @@
 package anis;
 
-import anis.Storage.Storage;
+import anis.storage.Storage;
 import anis.command.CommandHandler;
 import anis.task.TaskManager;
 import anis.ui.Ui;

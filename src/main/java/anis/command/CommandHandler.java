@@ -1,6 +1,6 @@
 package anis.command;
 
-import anis.Storage.Storage;
+import anis.storage.Storage;
 import anis.exception.AnisException;
 import anis.exception.EmptyDescriptionException;
 import anis.exception.InvalidFormatException;
@@ -134,11 +134,10 @@ public class CommandHandler {
             }
             Task task = taskManager.getTask(taskNumber);
             taskManager.deleteTask(taskNumber);
+            storage.save(taskManager.getTasks());
             ui.showDeleted(task, taskManager.getTaskCount());
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();
         }
-
-
     }
 }
