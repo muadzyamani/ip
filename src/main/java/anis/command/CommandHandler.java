@@ -1,5 +1,6 @@
 package anis.command;
 
+import anis.Storage.Storage;
 import anis.exception.AnisException;
 import anis.exception.EmptyDescriptionException;
 import anis.exception.InvalidFormatException;
@@ -16,10 +17,12 @@ import anis.task.TaskManager;
 public class CommandHandler {
     private final TaskManager taskManager;
     private final Ui ui;
+    private final Storage storage;
 
-    public CommandHandler(TaskManager taskManager, Ui ui) {
+    public CommandHandler(TaskManager taskManager, Ui ui, Storage storage) {
         this.taskManager = taskManager;
         this.ui = ui;
+        this.storage = storage;
     }
 
     public boolean processCommand(String userInput) {
@@ -68,6 +71,7 @@ public class CommandHandler {
         }
         Task task = new Todo(description);
         taskManager.addTask(task);
+        storage.save(taskManager.getTasks());
         ui.showAdded(task, taskManager.getTaskCount());
     }
 
@@ -78,6 +82,7 @@ public class CommandHandler {
         }
         Task task = new Deadline(parts[0].trim(), parts[1].trim());
         taskManager.addTask(task);
+        storage.save(taskManager.getTasks());
         ui.showAdded(task, taskManager.getTaskCount());
     }
 
@@ -92,6 +97,7 @@ public class CommandHandler {
         }
         Task task = new Event(parts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
         taskManager.addTask(task);
+        storage.save(taskManager.getTasks());
         ui.showAdded(task, taskManager.getTaskCount());
     }
 
@@ -110,6 +116,7 @@ public class CommandHandler {
             } else {
                 task.markAsNotDone();
             }
+            storage.save(taskManager.getTasks());
             ui.showMark(task, isMark);
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();

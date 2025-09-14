@@ -1,5 +1,6 @@
 package anis;
 
+import anis.Storage.Storage;
 import anis.command.CommandHandler;
 import anis.task.TaskManager;
 import anis.ui.Ui;
@@ -10,9 +11,10 @@ public class Anis {
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void runChat() {
-        TaskManager taskManager = new TaskManager();
         Ui ui = new Ui();
-        CommandHandler handler = new CommandHandler(taskManager, ui);
+        Storage storage = new Storage("./data/anis.txt");
+        TaskManager taskManager = new TaskManager(storage.load());
+        CommandHandler handler = new CommandHandler(taskManager, ui, storage);
 
         ui.showWelcome();
 

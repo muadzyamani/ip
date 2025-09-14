@@ -31,4 +31,6 @@ public abstract class Task {
     public String toString() {
         return "[" + getTypeIcon() + "][" + this.getStatusIcon() + "] " + this.description;
     }
+
+    public abstract String toSaveFormat();
 }
