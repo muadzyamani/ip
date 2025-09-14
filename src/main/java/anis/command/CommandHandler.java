@@ -49,6 +49,9 @@ public class CommandHandler {
             case "event":
                 addEvent(description);
                 break;
+            case "delete":
+                handleDelete(words);
+                break;
             default:
                 throw new UnknownCommandException();
             }
@@ -94,7 +97,7 @@ public class CommandHandler {
 
     private void handleMark(boolean isMark, String[] words) throws AnisException {
         if (words.length < 2) {
-            throw new MissingTaskNumberException(isMark);
+            throw new MissingTaskNumberException(isMark ? "mark" : "unmark");
         }
         try {
             int taskNumber = Integer.parseInt(words[1]);
@@ -111,5 +114,24 @@ public class CommandHandler {
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();
         }
+    }
+
+    private void handleDelete(String[] words) throws AnisException {
+        if (words.length < 2) {
+            throw new MissingTaskNumberException("delete");
+        }
+        try {
+            int taskNumber = Integer.parseInt(words[1]);
+            if (taskManager.isInvalidTaskNumber(taskNumber)) {
+                throw new InvalidTaskNumberException();
+            }
+            Task task = taskManager.getTask(taskNumber);
+            taskManager.deleteTask(taskNumber);
+            ui.showDeleted(task, taskManager.getTaskCount());
+        } catch (NumberFormatException e) {
+            throw new InvalidTaskNumberException();
+        }
+
+
     }
 }

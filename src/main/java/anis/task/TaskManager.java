@@ -10,6 +10,10 @@ public class TaskManager {
         tasks.add(task);
     }
 
+    public void deleteTask(int taskNumber) {
+        tasks.remove(taskNumber - 1);
+    }
+
     public boolean isInvalidTaskNumber(int taskNumber) {
         return taskNumber <= 0 || taskNumber > tasks.size();
     }

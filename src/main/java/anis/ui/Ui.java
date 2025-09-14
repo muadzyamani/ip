@@ -76,4 +76,12 @@ public class Ui {
         show(message);
         printBorder();
     }
+
+    public void showDeleted(Task task, int totalTasks) {
+        printBorder();
+        show("Noted. I've removed this task:");
+        show("  " + task);
+        show("Now you have " + totalTasks + (totalTasks == 1 ? " task" : " tasks") + " in the list.");
+        printBorder();
+    }
 }
