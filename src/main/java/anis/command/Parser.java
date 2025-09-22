@@ -12,15 +12,15 @@ import anis.exception.UnknownCommandException;
 import anis.task.Deadline;
 import anis.task.Event;
 import anis.task.Task;
-import anis.task.TaskManager;
+import anis.task.TaskList;
 
-public class CommandHandler {
-    private final TaskManager taskManager;
+public class Parser {
+    private final TaskList taskList;
     private final Ui ui;
     private final Storage storage;
 
-    public CommandHandler(TaskManager taskManager, Ui ui, Storage storage) {
-        this.taskManager = taskManager;
+    public Parser(TaskList taskList, Ui ui, Storage storage) {
+        this.taskList = taskList;
         this.ui = ui;
         this.storage = storage;
     }
@@ -35,7 +35,7 @@ public class CommandHandler {
             case "bye":
                 return false;
             case "list":
-                ui.showTaskList(taskManager.getTasks());
+                ui.showTaskList(taskList.getTasks());
                 break;
             case "mark":
                 handleMark(true, words);
@@ -70,9 +70,9 @@ public class CommandHandler {
             throw new EmptyDescriptionException("todo");
         }
         Task task = new Todo(description);
-        taskManager.addTask(task);
-        storage.save(taskManager.getTasks());
-        ui.showAdded(task, taskManager.getTaskCount());
+        taskList.addTask(task);
+        storage.save(taskList.getTasks());
+        ui.showAdded(task, taskList.getTaskCount());
     }
 
     private void addDeadline(String description) throws AnisException {
@@ -81,9 +81,9 @@ public class CommandHandler {
             throw new InvalidFormatException("deadline", "<desc> /by <time>");
         }
         Task task = new Deadline(parts[0].trim(), parts[1].trim());
-        taskManager.addTask(task);
-        storage.save(taskManager.getTasks());
-        ui.showAdded(task, taskManager.getTaskCount());
+        taskList.addTask(task);
+        storage.save(taskList.getTasks());
+        ui.showAdded(task, taskList.getTaskCount());
     }
 
     private void addEvent(String description) throws AnisException {
@@ -96,9 +96,9 @@ public class CommandHandler {
             throw new InvalidFormatException("event", "<desc> /from <start> /to <end>");
         }
         Task task = new Event(parts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
-        taskManager.addTask(task);
-        storage.save(taskManager.getTasks());
-        ui.showAdded(task, taskManager.getTaskCount());
+        taskList.addTask(task);
+        storage.save(taskList.getTasks());
+        ui.showAdded(task, taskList.getTaskCount());
     }
 
     private void handleMark(boolean isMark, String[] words) throws AnisException {
@@ -107,16 +107,16 @@ public class CommandHandler {
         }
         try {
             int taskNumber = Integer.parseInt(words[1]);
-            if (taskManager.isInvalidTaskNumber(taskNumber)) {
+            if (taskList.isInvalidTaskNumber(taskNumber)) {
                 throw new InvalidTaskNumberException();
             }
-            Task task = taskManager.getTask(taskNumber);
+            Task task = taskList.getTask(taskNumber);
             if (isMark) {
                 task.markAsDone();
             } else {
                 task.markAsNotDone();
             }
-            storage.save(taskManager.getTasks());
+            storage.save(taskList.getTasks());
             ui.showMark(task, isMark);
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();
@@ -129,13 +129,13 @@ public class CommandHandler {
         }
         try {
             int taskNumber = Integer.parseInt(words[1]);
-            if (taskManager.isInvalidTaskNumber(taskNumber)) {
+            if (taskList.isInvalidTaskNumber(taskNumber)) {
                 throw new InvalidTaskNumberException();
             }
-            Task task = taskManager.getTask(taskNumber);
-            taskManager.deleteTask(taskNumber);
-            storage.save(taskManager.getTasks());
-            ui.showDeleted(task, taskManager.getTaskCount());
+            Task task = taskList.getTask(taskNumber);
+            taskList.deleteTask(taskNumber);
+            storage.save(taskList.getTasks());
+            ui.showDeleted(task, taskList.getTaskCount());
         } catch (NumberFormatException e) {
             throw new InvalidTaskNumberException();
         }
