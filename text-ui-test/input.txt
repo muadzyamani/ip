@@ -1,6 +1,6 @@
 todo borrow book
-event CS2113 project meeting /from Tues 8pm /to 10pm
-deadline check assignments /by Sunday
+event CS2113 project /from 2025-09-21 /to 2025-09-22
+deadline check assignments /by 2025-09-22
 mark 1
 list
 unmark 1
