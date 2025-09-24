@@ -27,6 +27,8 @@ public class Parser {
             return new AddEventCommand(description);
         case "delete":
             return new DeleteCommand(description);
+        case "find":
+            return new FindCommand(description);
         default:
             throw new UnknownCommandException();
         }
