@@ -55,12 +55,12 @@ public class Storage {
             String description = parts[2];
 
             switch (type) {
-                case "T":
-                    Task todo = new Todo(description);
-                    if (isDone) {
-                        todo.markAsDone();
-                    }
-                    return todo;
+            case "T":
+                Task todo = new Todo(description);
+                if (isDone) {
+                    todo.markAsDone();
+                }
+                return todo;
             case "D":
                 String by = parts[3];
                 Task deadline = new Deadline(description, by);
@@ -68,16 +68,16 @@ public class Storage {
                     deadline.markAsDone();
                 }
                 return deadline;
-                case "E":
-                    String from = parts[3];
-                    String to = parts[4];
-                    Task event = new Event(description, from, to);
-                    if (isDone) {
-                        event.markAsDone();
-                    }
-                    return event;
-                default:
-                    return null;
+            case "E":
+                String from = parts[3];
+                String to = parts[4];
+                Task event = new Event(description, from, to);
+                if (isDone) {
+                    event.markAsDone();
+                }
+                return event;
+            default:
+                return null;
             }
 
         } catch (Exception e) {
