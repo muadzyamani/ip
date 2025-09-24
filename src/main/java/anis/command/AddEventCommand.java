@@ -8,6 +8,8 @@ import anis.task.Task;
 import anis.task.TaskList;
 import anis.ui.Ui;
 
+import java.time.format.DateTimeParseException;
+
 public class AddEventCommand extends Command {
     private final String description;
 
@@ -19,16 +21,21 @@ public class AddEventCommand extends Command {
     public void execute(TaskList taskList, Ui ui, Storage storage) throws AnisException {
         String[] parts = description.split("/from", 2);
         if (parts.length < 2) {
-            throw new InvalidFormatException("event", "<desc> /from <start> /to <end>");
+            throw new InvalidFormatException("event", "<desc> /from yyyy-MM-dd /to yyyy-MM-dd");
         }
         String[] fromTo = parts[1].split("/to", 2);
         if (fromTo.length < 2) {
-            throw new InvalidFormatException("event", "<desc> /from <start> /to <end>");
+            throw new InvalidFormatException("event", "<desc> /from yyyy-MM-dd /to yyyy-MM-dd");
         }
 
-        Task task = new Event(parts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
-        taskList.addTask(task);
-        storage.save(taskList.getTasks());
-        ui.showAdded(task, taskList.getTaskCount());
+        try {
+            Task task = new Event(parts[0].trim(), fromTo[0].trim(), fromTo[1].trim());
+            taskList.addTask(task);
+            storage.save(taskList.getTasks());
+            ui.showAdded(task, taskList.getTaskCount());
+        } catch (DateTimeParseException e) {
+            throw new InvalidFormatException("event", "<desc> /from yyyy-MM-dd /to yyyy-MM-dd");
+        }
+
     }
 }

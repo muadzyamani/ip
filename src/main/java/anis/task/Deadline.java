@@ -1,11 +1,14 @@
 package anis.task;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 public class Deadline extends Task {
-    protected String by;
+    protected LocalDate by;
 
     public Deadline(String description, String by) {
         super(description);
-        this.by = by;
+        this.by = LocalDate.parse(by); // expects yyyy-MM-dd format
     }
 
     @Override
@@ -15,7 +18,8 @@ public class Deadline extends Task {
 
     @Override
     public String toString() {
-        return super.toString() + " (by: " + by + ")";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy");
+        return super.toString() + " (by: " + by.format(formatter) + ")";
     }
 
     @Override
