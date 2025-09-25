@@ -10,13 +10,32 @@ import anis.ui.Ui;
 
 import java.time.format.DateTimeParseException;
 
+/**
+ * The {@code AddEventCommand} adds a new Event task to the task list.
+ * <p>
+ * The input format must be: {@code <desc> /from yyyy-MM-dd /to yyyy-MM-dd}.
+ */
 public class AddEventCommand extends Command {
     private final String description;
 
+    /**
+     * Constructs an {@code AddEventCommand} with the given description string.
+     *
+     * @param description the input string describing the event
+     */
     public AddEventCommand(String description) {
         this.description = description;
     }
 
+    /**
+     * Executes the command by parsing the description, creating a new Event task,
+     * adding it to the task list, saving the updated list, and displaying confirmation via the UI.
+     *
+     * @param taskList the list of tasks
+     * @param ui the user interface for displaying messages
+     * @param storage the storage for persisting tasks
+     * @throws AnisException if the input format is invalid or the date parsing fails
+     */
     @Override
     public void execute(TaskList taskList, Ui ui, Storage storage) throws AnisException {
         String[] parts = description.split("/from", 2);
