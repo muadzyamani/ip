@@ -3,8 +3,21 @@ package anis.command;
 import anis.exception.AnisException;
 import anis.exception.UnknownCommandException;
 
-
+/**
+ * The {@code Parser} class is responsible for interpreting user input
+ * and converting it into executable {@link Command} objects.
+ * <p>
+ * It also validates the input format and throws exceptions for unknown commands.
+ */
 public class Parser {
+
+    /**
+     * Parses a line of user input and returns the corresponding {@link Command}.
+     *
+     * @param userInput the raw input string entered by the user
+     * @return the {@link Command} corresponding to the user input
+     * @throws AnisException if the command is unknown or the input format is invalid
+     */
     public static Command parse(String userInput) throws AnisException {
         String[] words = userInput.split(" ", 2);
         String command = words[0].toLowerCase();

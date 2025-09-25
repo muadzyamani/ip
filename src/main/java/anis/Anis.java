@@ -10,6 +10,11 @@ import anis.ui.Ui;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The {@code Anis} class represents the main application for managing tasks.
+ * It initializes the UI, loads tasks from storage, processes user input,
+ * executes commands, and handles the application lifecycle.
+ */
 public class Anis {
     private static final Scanner scanner = new Scanner(System.in);
 
@@ -28,6 +33,11 @@ public class Anis {
         }
     }
 
+    /**
+     * Runs the main application loop.
+     * Displays the welcome message, continuously processes user input,
+     * executes commands, and exits when the user issues an exit command.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
