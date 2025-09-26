@@ -1,5 +1,6 @@
 package anis.task;
 
+import anis.storage.Storage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -60,6 +61,6 @@ public class Deadline extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "D | " + (isDone ? "1" : "0") + " | " + description + " | " + by;
+        return TaskType.DEADLINE.getIcon() + " | " + Storage.getStatusString(isDone) + " | " + description + " | " + by;
     }
 }

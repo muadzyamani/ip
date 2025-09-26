@@ -1,5 +1,7 @@
 package anis.task;
 
+import anis.storage.Storage;
+
 /**
  * The {@code Todo} class represents a task without any date or time constraints.
  * <p>
@@ -26,7 +28,6 @@ public class Todo extends Task {
         return TaskType.TODO.getIcon();
     }
 
-
     /**
      * Returns the string representation of this to-do for saving to file.
      * <p>
@@ -39,6 +40,6 @@ public class Todo extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "T | " + (isDone ? "1" : "0") + " | " + description;
+        return TaskType.TODO.getIcon() + " | " + Storage.getStatusString(isDone) + " | " + description;
     }
 }

@@ -3,6 +3,7 @@ package anis.storage;
 import anis.task.Deadline;
 import anis.task.Event;
 import anis.task.Task;
+import anis.task.TaskType;
 import anis.task.Todo;
 
 import java.io.BufferedReader;
@@ -21,6 +22,10 @@ import java.util.List;
  */
 public class Storage {
     private final Path filePath;
+
+    private static final String TASK_DONE = "1";
+    private static final String TASK_NOT_DONE = "0";
+    private static final String FIELD_SEPARATOR = " \\| ";
 
     /**
      * Constructs a {@code Storage} instance with the given file path.
@@ -43,7 +48,10 @@ public class Storage {
         List<Task> tasks = new ArrayList<>();
         if (!Files.exists(filePath)) {
             try {
-                Files.createDirectories(filePath.getParent());
+                Path parent = filePath.getParent();
+                if (parent != null) {
+                    Files.createDirectories(parent);
+                }
                 Files.createFile(filePath);
             } catch (IOException e) {
                 System.out.println("Error creating save file: " + e.getMessage());
@@ -81,37 +89,36 @@ public class Storage {
      * @return the parsed task, or {@code null} if parsing fails
      */
     private Task parseTask(String line) {
-        String[] parts = line.split(" \\| ");
+        String[] parts = line.split(FIELD_SEPARATOR);
         try {
-            String type = parts[0];
-            boolean isDone = parts[1].equals("1");
-            String description = parts[2];
-
-            switch (type) {
-            case "T":
-                Task todo = new Todo(description);
-                if (isDone) {
-                    todo.markAsDone();
-                }
-                return todo;
-            case "D":
-                String by = parts[3];
-                Task deadline = new Deadline(description, by);
-                if (isDone) {
-                    deadline.markAsDone();
-                }
-                return deadline;
-            case "E":
-                String from = parts[3];
-                String to = parts[4];
-                Task event = new Event(description, from, to);
-                if (isDone) {
-                    event.markAsDone();
-                }
-                return event;
-            default:
+            TaskType taskType = TaskType.fromString(parts[0]);
+            if (taskType == null) {
                 return null;
             }
+
+            boolean isDone = parts[1].equals(TASK_DONE);
+            String description = parts[2];
+
+            Task task = null;
+            switch (taskType) {
+            case TODO:
+                task = new Todo(description);
+                break;
+            case DEADLINE:
+                String by = parts[3];
+                task = new Deadline(description, by);
+                break;
+            case EVENT:
+                String from = parts[3];
+                String to = parts[4];
+                task = new Event(description, from, to);
+                break;
+            }
+
+            if (task != null && isDone) {
+                task.markAsDone();
+            }
+            return task;
 
         } catch (Exception e) {
             System.out.println("Corrupted line: " + line);
@@ -136,5 +143,15 @@ public class Storage {
         } catch (IOException e) {
             System.out.println("Error saving to file: " + e.getMessage());
         }
+    }
+
+    /**
+     * Returns the string representation for a task's completion status.
+     *
+     * @param isDone true if the task is done, false otherwise
+     * @return "1" if done, "0" if not done
+     */
+    public static String getStatusString(boolean isDone) {
+        return isDone ? TASK_DONE : TASK_NOT_DONE;
     }
 }

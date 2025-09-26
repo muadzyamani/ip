@@ -1,5 +1,6 @@
 package anis.task;
 
+import anis.storage.Storage;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -64,6 +65,6 @@ public class Event extends Task {
      */
     @Override
     public String toSaveFormat() {
-        return "E | " + (isDone ? "1" : "0") + " | " + description + " | " + from + " | " + to;
+        return TaskType.EVENT.getIcon() + " | " + Storage.getStatusString(isDone) + " | " + description + " | " + from + " | " + to;
     }
 }
