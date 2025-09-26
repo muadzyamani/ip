@@ -143,17 +143,16 @@ public class Ui {
     public void showMatchingTasks(List<Task> matchedTasks) {
         if (matchedTasks.isEmpty()) {
             printBorder();
-            System.out.println("\t No matching tasks found.");
+            show("\t No matching tasks found.");
             printBorder();
             return;
         }
 
         printBorder();
-        System.out.println("\t Here are the matching tasks in your list:");
+        show("\t Here are the matching tasks in your list:");
         for (int i = 0; i < matchedTasks.size(); i++) {
-            System.out.println("\t " + (i + 1) + "." + matchedTasks.get(i));
+            show("\t " + (i + 1) + "." + matchedTasks.get(i));
         }
         printBorder();
     }
-
 }

@@ -16,8 +16,6 @@ import java.util.Scanner;
  * executes commands, and handles the application lifecycle.
  */
 public class Anis {
-    private static final Scanner scanner = new Scanner(System.in);
-
     private final Storage storage;
     private TaskList taskList;
     private final Ui ui;
@@ -41,14 +39,16 @@ public class Anis {
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
-        while (!isExit) {
-            try {
-                String userInput = scanner.nextLine().trim();
-                Command command = Parser.parse(userInput);
-                command.execute(taskList, ui, storage);
-                isExit = command.isExit();
-            } catch (AnisException e) {
-                ui.showError(e.getMessage());
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (!isExit) {
+                try {
+                    String userInput = scanner.nextLine().trim();
+                    Command command = Parser.parse(userInput);
+                    command.execute(taskList, ui, storage);
+                    isExit = command.isExit();
+                } catch (AnisException e) {
+                    ui.showError(e.getMessage());
+                }
             }
         }
         ui.showGoodbye();
