@@ -143,15 +143,15 @@ public class Ui {
     public void showMatchingTasks(List<Task> matchedTasks) {
         if (matchedTasks.isEmpty()) {
             printBorder();
-            show("\t No matching tasks found.");
+            show("No matching tasks found.");
             printBorder();
             return;
         }
 
         printBorder();
-        show("\t Here are the matching tasks in your list:");
+        show("Here are the matching tasks in your list:");
         for (int i = 0; i < matchedTasks.size(); i++) {
-            show("\t " + (i + 1) + "." + matchedTasks.get(i));
+            show((i + 1) + "." + matchedTasks.get(i));
         }
         printBorder();
     }
