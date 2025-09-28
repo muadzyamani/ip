@@ -1,6 +1,6 @@
 # Anis User Guide
 
-![Anis Logo](./docs/images/anis.png)
+![Anis Logo](https://raw.githubusercontent.com/muadzyamani/ip/refs/heads/master/docs/images/anis.png)
 
 Anis is a friendly, command-line task management chatbot. It helps you keep track of **Todos, Deadlines, and Events**, mark and unmark them as done, delete tasks, list all tasks, and search for tasks by keyword. All your tasks are automatically saved to disk between sessions.
 
