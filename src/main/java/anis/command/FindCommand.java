@@ -40,7 +40,7 @@ public class FindCommand extends Command {
             throw new InvalidFormatException("find", "<keyword>");
         }
 
-        List<Task> foundTasks = taskList.findTasks(keyword);
+        List<Task> foundTasks = taskList.findTasks(trimmedKeyword);
         ui.showMatchingTasks(foundTasks);
     }
 }
