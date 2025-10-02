@@ -54,7 +54,8 @@ public class AddEventCommand extends Command {
             ui.showAdded(task, taskList.getTaskCount());
         } catch (DateTimeParseException e) {
             throw new InvalidFormatException("event", "<desc> /from yyyy-MM-dd /to yyyy-MM-dd");
+        } catch (IllegalArgumentException e) {
+            throw new AnisException("Start date must be before or equal to end date.");
         }
-
     }
 }

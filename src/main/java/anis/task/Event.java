@@ -25,6 +25,10 @@ public class Event extends Task {
         super(description);
         this.from = LocalDate.parse(from); // expects yyyy-MM-dd
         this.to = LocalDate.parse(to);
+
+        if (this.from.isAfter(this.to)) {
+            throw new IllegalArgumentException("Start date must be before or equal to end date.");
+        }
     }
 
     /**
